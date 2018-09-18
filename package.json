@@ -6,7 +6,7 @@
   "scripts": {
     "webpack": "webpack --mode production --watch",
     "start": "node bin/www",
-	"start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server"
   },
   "author": "William Ravelo M",
   "license": "MIT",
@@ -19,6 +19,7 @@
     "express": "^4.16.2",
     "mongoose": "^5.0.9",
     "morgan": "^1.9.0",
+    "puppeteer": "^1.8.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
