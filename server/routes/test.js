@@ -3,7 +3,7 @@ var Test = require("../models/test");
 const puppeteer = require('puppeteer');
 
 router.get("/", function(req, res) {
-	takeScreenshot("http://127.0.0.1:8887/");
+	takeScreenshot("https://ravelinx22.github.io/ComplementaryColorPaletteCreator/");
 	res.json({buenas: "test"});
 });
 
