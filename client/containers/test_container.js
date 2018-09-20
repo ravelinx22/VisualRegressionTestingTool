@@ -10,7 +10,9 @@ export default class TestContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: []
+			data: [],
+			isLoading: false,
+			buttonText: "Generar Reporte"
 		}
 	}
 
@@ -19,7 +21,28 @@ export default class TestContainer extends React.Component {
 	}
 
 	generateReport() {
-		console.log("Will generate");
+		this.setButtonLoadingState();
+		fetch("/api/tests", {
+			method: "POST",
+			headers: new Headers({
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+			})
+		})
+			.then((response) => {
+				this.unsetButtonLoadingState();
+				return response.json()
+			})
+			.then((data) => {
+				if(data.success) {
+					this.loadTests();
+				} else {
+					alert("Error");
+				}
+			})
+			.catch((error) => {
+				alert("Error");
+			});
 	}
 
 	loadTests() {
@@ -39,10 +62,24 @@ export default class TestContainer extends React.Component {
 		});
 	}
 
+	setButtonLoadingState() {
+		this.setState({
+			isLoading: true,
+			buttonText: "Generando Reporte..."
+		});
+	}
+
+	unsetButtonLoadingState() {
+		this.setState({
+			isLoading: false,
+			buttonText: "Generar Reporte"
+		});
+	}
+
 	render() {
 		return (
 			<Container>
-				<Button color="primary" className="btnGenerarReporte" onClick={this.generateReport.bind(this)}>Generar Reporte</Button>
+				<Button color="primary" className="btnGenerarReporte" onClick={this.generateReport.bind(this)} disabled={this.state.isLoading}>{this.state.buttonText}</Button>
 				<Row className="table-header">
 					<Col className="header" md={{size: 2, offset: 2}}>Imagen Base</Col>
 					<Col className="header" md="2">Imagen Modificada</Col>

@@ -10,7 +10,7 @@ router.post("/", function(req, res) {
 });
 
 router.get("/", function(req, res) {
-	Test.find({}, function(err, docs) {
+	Test.find({}).sort({createdAt: -1}).exec(function(err,docs){
 		if(err) throw err;
 		res.json(docs);
 	});
@@ -19,9 +19,10 @@ router.get("/", function(req, res) {
 const takeScreenshot = async(url, res) => {
 	let basePathServer = "client/img/tests/";
 	let basePathClient = "./img/tests/";
-	let first = "firstPhoto.png";
-	let second = "secondPhoto.png";
-	let result = "diff.png";
+	let generatedName = (new Date()).toISOString();
+	let first = generatedName + "-firstPhoto.png";
+	let second = generatedName + "-secondPhoto.png";
+	let result = generatedName + "-diff.png";
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 	const page = await browser.newPage();
 	await page.goto(url);
