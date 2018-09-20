@@ -9,19 +9,33 @@ import ReportRow from "../components/report_row.jsx";
 export default class TestContainer extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			data: []
+		}
 	}
 
 	componentDidMount() {
+		this.loadTests();
 	}
 
 	generateReport() {
 		console.log("Will generate");
 	}
 
+	loadTests() {
+		fetch("/api/tests")
+			.then(results => {
+				return results.json();
+			}).then(data => {
+				this.setState({
+					data: data
+				})
+			});
+	}
+
 	renderRows() {
-		let data = [1,2,3];
-		return data.map((d) => {
-			return <ReportRow/>
+		return this.state.data.map((d) => {
+			return <ReportRow data={d} />
 		});
 	}
 
